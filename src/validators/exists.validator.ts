@@ -6,7 +6,7 @@ import { DataSource } from "typeorm";
 @Injectable()
 export class ExistsValidation implements ValidatorConstraintInterface {
     constructor(
-        private readonly connection: DataSource
+        private readonly dataSource: DataSource
     ) { }
 
     async validate(value: any, args: ValidationArguments): Promise<boolean> {
@@ -17,7 +17,7 @@ export class ExistsValidation implements ValidatorConstraintInterface {
 
         const query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = "${value}"`;
 
-        const queryRunner = this.connection.createQueryRunner();
+        const queryRunner = this.dataSource.createQueryRunner();
         const result = await queryRunner.query(query);
 
         queryRunner.release();
