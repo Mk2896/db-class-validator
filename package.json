@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mk2896/class-validator-db-validation"
+    "url": "https://github.com/Mk2896/db-class-validator"
   },
-  "homepage": "https://github.com/Mk2896/class-validator-db-validation/blob/main/README.md",
+  "homepage": "https://github.com/Mk2896/db-class-validator/blob/master/README.md",
   "keywords": [
     "class-validator",
     "validation",
