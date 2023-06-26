@@ -4,4 +4,5 @@ src
 node_modules
 
 # Others
+tsconfig.json
 tsconfig.tsbuildinfo

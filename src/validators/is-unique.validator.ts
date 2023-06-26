@@ -13,8 +13,8 @@ export class IsUniqueValidation implements ValidatorConstraintInterface {
         let [
             tableName,
             columnName,
-            ignoranceValue,
-            ignoranceValueColumn
+            valueToBeIgnored,
+            valueToBeIgnoredColumn
         ] = args.constraints;
 
         if (value === undefined) {
@@ -26,13 +26,15 @@ export class IsUniqueValidation implements ValidatorConstraintInterface {
         }
 
         let query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = "${value}"`;
-
-        if (ignoranceValue !== undefined) {
-            if (ignoranceValueColumn === undefined) {
-                ignoranceValueColumn = 'id';
+        
+        if (valueToBeIgnored !== undefined) {
+            if (valueToBeIgnoredColumn === undefined) {
+                valueToBeIgnoredColumn = 'id';
             }
 
-            query += ` WHERE ${ignoranceValueColumn} <> ${ignoranceValue}`;
+            valueToBeIgnored = typeof valueToBeIgnored == "function" ? valueToBeIgnored(args) : valueToBeIgnored;
+
+            query += `AND ${valueToBeIgnoredColumn} <> ${valueToBeIgnored}`;
         }
 
         const queryRunner: QueryRunner = this.dataSource.createQueryRunner();

@@ -119,8 +119,8 @@ export class YourDto {
         {
             tableName: 'TABLE_NAME_IN_DATABASE',
             columnName?: 'COLUMN_NAME_IN_DATABASE',   // Column name is optional if it is not provided it will consider property name as column name
-            ignoranceValue: VALUE_TO_BE_IGNORED,
-            ignoranceValueColumn: 'COLUMN_NAME_TO_BE_IGNORED_IN_DATABASE'  // If `ignoranceValueColumn` is not provided it checks in `id` column
+            valueToBeIgnored: VALUE_TO_BE_IGNORED, // It takes string | number | (ValidationArguments) => string | number
+            valueToBeIgnoredColumn: 'COLUMN_NAME_TO_BE_IGNORED_IN_DATABASE'  // If `valueToBeIgnoredColumn` is not provided it checks in `id` column
         },
         ValidatorOptions?
     )  // Using Decorator

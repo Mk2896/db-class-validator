@@ -10,8 +10,8 @@ export function IsUnique(isUniqueOptions: IsUniqueOptions, validationOptions?: V
             constraints: [
                 isUniqueOptions.tableName,
                 isUniqueOptions.columnName,
-                isUniqueOptions.ignoranceValue,
-                isUniqueOptions.ignoranceValueColumn,
+                isUniqueOptions.valueToBeIgnored,
+                isUniqueOptions.valueToBeIgnoredColumn,
             ],
             options: validationOptions,
             validator: IsUniqueValidation
