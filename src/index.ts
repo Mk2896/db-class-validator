@@ -1,6 +1,3 @@
-import { Exists } from './decorators/exists.decorator';
-import { ExistsValidation } from './validators/exists.validator';
-
-
-export { Exists } from './decorators/exists.decorator';
-export { ExistsValidation } from './validators/exists.validator';
+export { Exists, IsUnique } from './decorators'
+export { ExistsValidation, IsUniqueValidation } from './validators'
+export { ExistsOptions, IsUniqueOptions } from './interface'

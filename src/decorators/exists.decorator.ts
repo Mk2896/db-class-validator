@@ -1,12 +1,16 @@
 import { registerDecorator, ValidationOptions } from "class-validator";
-import { ExistsValidation } from "../validators/exists.validator";
+import { ExistsValidation } from "../validators";
+import { ExistsOptions } from "../interface";
 
-export function Exists(tableName: string , columnName: string, validationOptions?: ValidationOptions) {
+export function Exists(existsOptions: ExistsOptions, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
             target: object.constructor,
             propertyName: propertyName,
-            constraints: [tableName ,columnName],
+            constraints: [
+                existsOptions.tableName,
+                existsOptions.columnName
+            ],
             options: validationOptions,
             validator: ExistsValidation
         });

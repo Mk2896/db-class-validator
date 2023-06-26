@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 import { DataSource, QueryRunner } from "typeorm";
 
-@ValidatorConstraint({ name: 'Exists', async: true })
+@ValidatorConstraint({ name: 'IsUnique', async: true })
 @Injectable()
-export class ExistsValidation implements ValidatorConstraintInterface {
+export class IsUniqueValidation implements ValidatorConstraintInterface {
     constructor(
         private readonly dataSource: DataSource
     ) { }
@@ -12,28 +12,38 @@ export class ExistsValidation implements ValidatorConstraintInterface {
     async validate(value: any, args: ValidationArguments): Promise<boolean> {
         let [
             tableName,
-            columnName
+            columnName,
+            ignoranceValue,
+            ignoranceValueColumn
         ] = args.constraints;
 
         if (value === undefined) {
             return false;
         }
-        
-        if(columnName === undefined) {
+
+        if (columnName === undefined) {
             columnName = args.property;
         }
 
-        const query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = "${value}"`;
+        let query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = "${value}"`;
+
+        if (ignoranceValue !== undefined) {
+            if (ignoranceValueColumn === undefined) {
+                ignoranceValueColumn = 'id';
+            }
+
+            query += ` WHERE ${ignoranceValueColumn} <> ${ignoranceValue}`;
+        }
 
         const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
         const result = await queryRunner.query(query);
 
         queryRunner.release();
 
-        return result[0]['total'] > 0 ? true : false;
+        return result[0]['total'] < 1 ? true : false;
     }
 
     defaultMessage(args: ValidationArguments): string {
-        return `${args.property} is invalid.`;
+        return `${args.property} already exists.`;
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "db-class-validator",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "A class-validator extension package that is used to validate field in database",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,11 +17,13 @@
     "validation",
     "database validation",
     "exists",
-    "exists in database"
+    "exists in database",
+    "unique",
+    "unique in database"
   ],
   "author": "Muhammad Maaz Khan",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@nestjs/common": "^10.0.3",
     "class-validator": "^0.14.0",
     "typeorm": "^0.3.17",
