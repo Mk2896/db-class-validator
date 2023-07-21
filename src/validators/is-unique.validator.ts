@@ -26,7 +26,7 @@ export class IsUniqueValidation implements ValidatorConstraintInterface {
         }
 
         let query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = '${value}'`;
-        
+
         if (valueToBeIgnored !== undefined) {
             if (valueToBeIgnoredColumn === undefined) {
                 valueToBeIgnoredColumn = 'id';
@@ -37,10 +37,16 @@ export class IsUniqueValidation implements ValidatorConstraintInterface {
             query += ` AND ${valueToBeIgnoredColumn} != ${valueToBeIgnored}`;
         }
 
-        const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
-        const result = await queryRunner.query(query);
+        let result: any;
+        try {
+            const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
+            result = await queryRunner.query(query);
 
-        queryRunner.release();
+            queryRunner.release();
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
 
         return result[0]['total'] < 1 ? true : false;
     }

@@ -18,17 +18,24 @@ export class ExistsValidation implements ValidatorConstraintInterface {
         if (value === undefined) {
             return false;
         }
-        
-        if(columnName === undefined) {
+
+        if (columnName === undefined) {
             columnName = args.property;
         }
 
         const query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = '${value}'`;
 
-        const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
-        const result = await queryRunner.query(query);
+        let result: any;
+        
+        try {
+            const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
+            result = await queryRunner.query(query);
 
-        queryRunner.release();
+            queryRunner.release();
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
 
         return result[0]['total'] > 0 ? true : false;
     }
