@@ -23,7 +23,7 @@ export class ExistsValidation implements ValidatorConstraintInterface {
             columnName = args.property;
         }
 
-        const query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = "${value}"`;
+        const query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = '${value}'`;
 
         const queryRunner: QueryRunner = this.dataSource.createQueryRunner();
         const result = await queryRunner.query(query);
