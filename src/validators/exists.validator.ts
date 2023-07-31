@@ -12,7 +12,8 @@ export class ExistsValidation implements ValidatorConstraintInterface {
     async validate(value: any, args: ValidationArguments): Promise<boolean> {
         let [
             tableName,
-            columnName
+            columnName,
+            conditions,
         ] = args.constraints;
 
         if (value === undefined) {
@@ -23,7 +24,13 @@ export class ExistsValidation implements ValidatorConstraintInterface {
             columnName = args.property;
         }
 
-        const query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = '${value}'`;
+        let query: string = `Select COUNT(${columnName}) as total from ${tableName} WHERE ${columnName} = '${value}'`;
+
+        if(conditions !== undefined && conditions.length > 0) {
+            conditions.forEach((condition: string) => {
+                query += ` AND ${condition}`;
+            });
+        }
 
         let result: any;
         

@@ -9,7 +9,8 @@ export function Exists(existsOptions: ExistsOptions, validationOptions?: Validat
             propertyName: propertyName,
             constraints: [
                 existsOptions.tableName,
-                existsOptions.columnName
+                existsOptions.columnName,
+                existsOptions.conditions,
             ],
             options: validationOptions,
             validator: ExistsValidation
